@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketch Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Sketch Gallery</h1>
+            <button class="btn btn-primary" id="newSketchBtn">새 스케치</button>
+        </header>
+
+        <!-- Filter and Sort Controls -->
+        <div class="controls">
+            <div class="filter-section">
+                <label for="tagFilter">태그 필터:</label>
+                <select id="tagFilter">
+                    <option value="">모든 태그</option>
+                </select>
+                
+                <label for="sortBy">정렬:</label>
+                <select id="sortBy">
+                    <option value="latest">최신순</option>
+                    <option value="likes">좋아요순</option>
+                    <option value="alphabetical">제목순</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery" id="gallery">
+            <!-- Sketches will be dynamically inserted here -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h2>아직 스케치가 없습니다</h2>
+            <p>첫 번째 스케치를 업로드해보세요!</p>
+            <button class="btn btn-primary" onclick="openUploadModal()">스케치 업로드</button>
+        </div>
+    </div>
+
+    <!-- Upload/Edit Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">새 스케치 업로드</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="sketchForm">
+                <div class="form-group">
+                    <label for="sketchTitle">제목 <span class="required">*</span>:</label>
+                    <input type="text" id="sketchTitle" required>
+                    <div class="error-message" id="titleError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sketchDescription">설명 <span class="required">*</span>:</label>
+                    <textarea id="sketchDescription" rows="3" required></textarea>
+                    <div class="error-message" id="descriptionError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sketchTags">태그 <span class="required">*</span> (쉼표로 구분):</label>
+                    <input type="text" id="sketchTags" placeholder="예: 디지털, 초상화" required>
+                    <div class="error-message" id="tagsError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sketchImage">이미지 <span class="required">*</span>:</label>
+                    <input type="file" id="sketchImage" accept="image/*" required>
+                    <div class="error-message" id="imageError"></div>
+                    <div class="image-preview-container">
+                        <div class="image-preview" id="imagePreview"></div>
+                        <div class="image-actions" id="imageActions" style="display: none;">
+                            <button type="button" class="btn btn-secondary" id="changeImageBtn">이미지 변경</button>
+                            <button type="button" class="btn btn-danger" id="removeImageBtn">이미지 제거</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content detail-modal">
+            <div class="modal-header">
+                <h2 id="detailTitle"></h2>
+                <button class="close-btn" id="closeDetailModal">&times;</button>
+            </div>
+            <div class="detail-content">
+                <div class="detail-image">
+                    <img id="detailImage" src="" alt="">
+                </div>
+                <div class="detail-info">
+                    <p id="detailDescription"></p>
+                    <div class="detail-tags" id="detailTags"></div>
+                    <div class="detail-meta">
+                        <span id="detailDate"></span>
+                        <span id="detailLikes"></span>
+                    </div>
+                    <div class="detail-actions">
+                        <button class="btn btn-like" id="likeBtn">
+                            <span>❤️</span> 좋아요
+                        </button>
+                        <button class="btn btn-secondary" id="editBtn">편집</button>
+                        <button class="btn btn-danger" id="deleteBtn">삭제</button>
+                    </div>
+                    
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <h3>댓글</h3>
+                        <div class="add-comment">
+                            <input type="text" id="commentInput" placeholder="댓글을 입력하세요...">
+                            <button class="btn btn-primary" id="addCommentBtn">댓글 추가</button>
+                        </div>
+                        <div class="comments-list" id="commentsList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notifications" id="notifications"></div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-section="gallery">
+            <div class="nav-icon">🏠</div>
+            <span>홈</span>
+        </div>
+        <div class="nav-item" data-section="upload">
+            <div class="nav-icon">➕</div>
+            <span>업로드</span>
+        </div>
+        <div class="nav-item" data-section="favorites">
+            <div class="nav-icon">❤️</div>
+            <span>좋아요</span>
+        </div>
+        <div class="nav-item" data-section="profile">
+            <div class="nav-icon">👤</div>
+            <span>프로필</span>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
